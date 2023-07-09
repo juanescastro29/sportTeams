@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./templates/header.ejs') %>
+  </head>
+  <body>
+    <nav
+      class="navbar bg-dark navbar-expand-lg bg-body-tertiary p-3"
+      data-bs-theme="dark"
+    >
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">Sport Teams</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/teams"
+                >Teams</a
+              >
+            </li>
+          </ul>
+        </div>
+        <button
+          class="btn btn-secondary"
+          type="button"
+          data-bs-toggle="modal"
+          data-bs-target="#newTeamModal"
+        >
+          New Team
+        </button>
+      </div>
+    </nav>
+
+    <div class="container p-5">
+      <% if (Object.keys(teams).length > 0) { %>
+      <div class="row">
+        <div class="col-4">
+          <select
+            class="form-select"
+            aria-label="Default select example"
+            id="searchSport"
+            required
+          >
+            <option selected>Select a Sport</option>
+            <option value="basketball">Basketball</option>
+            <option value="football">Football</option>
+            <option value="soccer">Soccer</option>
+            <option value="baseball">Baseball</option>
+          </select>
+        </div>
+        <div class="col-4">
+          <select
+            class="form-select"
+            aria-label="Default select example"
+            id="searchLeague"
+            required
+          >
+            <option selected>Select a League</option>
+            <% teams.forEach(team => { %>
+            <option value="<%= team.teamLeague %>">
+              <%= team.teamLeague %>
+            </option>
+            <% }) %>
+          </select>
+        </div>
+        <div class="col-2">
+          <label for="searchLeague" class="form-label"></label>
+          <button class="btn btn-secondary" onclick="">Apply Filters</button>
+        </div>
+      </div>
+      <table class="table table-hover table caption-top">
+        <caption class="fs-4">
+          List Of Teams
+        </caption>
+        <thead class="table-dark text-center">
+          <tr>
+            <th scope="col">Team Id</th>
+            <th scope="col">Team Name</th>
+            <th scope="col">Team Sport</th>
+            <th scope="col">Team League</th>
+            <th scope="col">Team Budge</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="table-group-divider text-center">
+          <% teams.forEach( (team, index) => { %>
+          <tr>
+            <th scope="row" id="<%= team.teamId %>"><%= team.teamId %></th>
+            <td><%= team.teamName %></td>
+            <td><%= team.teamSport %></td>
+            <td><%= team.teamLeague %></td>
+            <td><%= team.teamBudge %></td>
+            <td>
+              <button
+                class="btn btn-danger"
+                onclick="deleteTeam('<%= index %>')"
+              >
+                Delete Team
+              </button>
+            </td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+      <% } else { %>
+      <h1 class="text-center">No data on JSON file</h1>
+      <% } %>
+    </div>
+
+    <div
+      class="modal fade"
+      id="newTeamModal"
+      tabindex="-1"
+      aria-labelledby="newTeamModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="newTeamModalLabel">
+              Create New Team
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form action="/" method="POST">
+              <div class="mb-3">
+                <label for="teamId" class="form-label">Team Id</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="teamId"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="teamName" class="form-label">Team Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="teamName"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="teamSport" class="form-label">Team Sport</label>
+                <select
+                  class="form-select"
+                  aria-label="Default select example"
+                  name="teamSport"
+                  required
+                >
+                  <option selected>Select a Sport</option>
+                  <option value="basketball">Basketball</option>
+                  <option value="football">Football</option>
+                  <option value="soccer">Soccer</option>
+                  <option value="baseball">Baseball</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="teamLeague" class="form-label">Team League</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="teamLeague"
+                  oninput="this.value = this.value.toUpperCase()"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="teamBudge" class="form-label">Team Budge</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="teamBudge"
+                  required
+                />
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Cancel
+                </button>
+                <button type="submit" class="btn btn-secondary">
+                  Save Team
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    async function deleteTeam(index) {
+      const response = await fetch("/deleteTeam", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(index),
+      });
+      if (response) {
+        location.reload();
+      }
+    }
+  </script>
+</html>
