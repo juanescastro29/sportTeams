@@ -45,16 +45,42 @@ router.post("/", (req, res) => {
   });
 });
 
+router.post("/editTeam", (req, res) => {
+  fs.readFile("./resources/teams.json", "utf-8", (error, data) => {
+    if (error) {
+      console.log("An error has ocurred:" + error);
+    } else {
+      const teams = JSON.parse(data);
+      const { teamId, teamName, teamSport, teamLeague, teamBudge } = req.body;
+
+      teams.forEach(team => {
+        if (team.teamId == teamId) {
+          team.teamName = teamName
+          team.teamSport = teamSport
+          team.teamLeague = teamLeague
+          team.teamBudge = teamBudge
+        }else {
+          console.log("There is no team with that id");
+        }
+      });
+      fs.writeFile("./resources/teams.json", JSON.stringify(teams), (error) => {
+        if (error) {
+          console.log("An error has ocurred:" + error);
+        } else {
+          res.redirect("/teams");
+        }
+      });
+    }
+  });
+});
+
 router.post("/deleteTeam", (req, res) => {
   fs.readFile("./resources/teams.json", "utf-8", (error, data) => {
     if (error) {
       console.log("An error has ocurred:" + error);
     } else {
       const teams = JSON.parse(data);
-      const { arrayIndex } = req.body;
-
-      teams.splice(arrayIndex, 1);
-
+      teams.splice(req.body.index, 1)
       fs.writeFile("./resources/teams.json", JSON.stringify(teams), (error) => {
         if (error) {
           console.log("An error has ocurred:" + error);
@@ -65,7 +91,5 @@ router.post("/deleteTeam", (req, res) => {
     }
   });
 });
-
-
 
 module.exports = router;

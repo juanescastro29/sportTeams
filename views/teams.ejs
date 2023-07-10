@@ -81,27 +81,143 @@
           <button class="btn btn-secondary" onclick="">Apply Filters</button>
         </div>
 
-        <div class="row mt-5">
-          <% teams.forEach((team, index) => { %>
-          <div class="col-sm-6">
+        <div class="row">
+          <% for( let index = 0; index < teams.length; index++ ) { %>
+          <div class="col-sm-6 mt-4">
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title"><%= team.teamName %></h5>
+                <h5 class="card-title"><%= teams[index].teamName %></h5>
                 <ul>
-                  <li>Sport: <%= team.teamSport %></li>
-                  <li>League: <%= team.teamLeague %></li>
-                  <li>Budge: <%= team.teamBudge %></li>
+                  <li>Sport: <%= teams[index].teamSport %></li>
+                  <li>League: <%= teams[index].teamLeague %></li>
+                  <li>Budge: <%= teams[index].teamBudge %></li>
                 </ul>
-                <button
-                  class="btn btn-danger"
-                  onclick="deleteTeam('<%= index %>')"
+                <div class="container text-end">
+                  <button
+                    class="btn btn-secondary"
+                    type="button"
+                    data-bs-toggle="modal"
+                    data-bs-target="#editTeamModal"
+                  >
+                    Edit Team
+                  </button>
+                  <button
+                    class="btn btn-danger"
+                    onclick="deleteTeam('<%= index %>')"
+                  >
+                    Delete Team
+                  </button>
+                </div>
+                <div
+                  class="modal fade"
+                  id="editTeamModal"
+                  tabindex="-1"
+                  aria-labelledby="editTeamModalLabel"
+                  aria-hidden="true"
                 >
-                  Delete Team
-                </button>
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="editTeamModalLabel">
+                          Edit Team
+                        </h1>
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
+                      </div>
+                      <div class="modal-body">
+                        <form action="/editTeam" method="POST">
+                          <div class="mb-3">
+                            <label for="teamId" class="form-label"
+                              >Team Id</label
+                            >
+                            <input
+                              type="text"
+                              class="form-control"
+                              name="teamId"
+                              required
+                            />
+                          </div>
+                          <div class="mb-3">
+                            <label for="teamName" class="form-label"
+                              >Team Name</label
+                            >
+                            <input
+                              type="text"
+                              class="form-control"
+                              name="teamName"
+                              oninput="this.value = this.value.toUpperCase()"
+                              required
+                            />
+                          </div>
+                          <div class="mb-3">
+                            <label for="teamSport" class="form-label"
+                              >Team Sport</label
+                            >
+                            <select
+                              class="form-select"
+                              aria-label="Default select example"
+                              name="teamSport"
+                              required
+                            >
+                              <option selected>Select a Sport</option>
+                              <option value="Basketball">Basketball</option>
+                              <option value="Football">Football</option>
+                              <option value="Soccer">Soccer</option>
+                              <option value="Baseball">Baseball</option>
+                            </select>
+                          </div>
+                          <div class="mb-3">
+                            <label for="teamLeague" class="form-label"
+                              >Team League</label
+                            >
+                            <input
+                              type="text"
+                              class="form-control"
+                              name="teamLeague"
+                              oninput="this.value = this.value.toUpperCase()"
+                              required
+                            />
+                          </div>
+                          <div class="mb-3">
+                            <label for="teamBudge" class="form-label"
+                              >Team Budge</label
+                            >
+                            <input
+                              type="text"
+                              class="form-control"
+                              name="teamBudge"
+                              required
+                            />
+                          </div>
+                          <div class="modal-footer">
+                            <button
+                              type="button"
+                              class="btn btn-secondary"
+                              data-bs-dismiss="modal"
+                            >
+                              Cancel
+                            </button>
+                            <button
+                              type="submit"
+                              class="btn btn-secondary"
+                              onclick="editTeam()"
+                            >
+                              Save Team
+                            </button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-          <% }) %>
+          <% } %>
         </div>
         <% } else { %>
         <h1 class="text-center">No data on JSON file</h1>
@@ -137,6 +253,7 @@
                   type="text"
                   class="form-control"
                   name="teamId"
+                  value=""
                   required
                 />
               </div>
@@ -146,6 +263,7 @@
                   type="text"
                   class="form-control"
                   name="teamName"
+                  value=""
                   oninput="this.value = this.value.toUpperCase()"
                   required
                 />
@@ -193,7 +311,7 @@
                   Cancel
                 </button>
                 <button type="submit" class="btn btn-secondary">
-                  Save Team
+                  Create Team
                 </button>
               </div>
             </form>

@@ -10,6 +10,7 @@
   "author": "Wilmar Peña - Juan Castro",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.20.2",
     "bootstrap": "^5.3.0",
     "bootstrap-icons": "^1.10.5",
     "ejs": "^3.1.9",
