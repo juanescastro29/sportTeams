@@ -1,6 +1,6 @@
 # Título del Proyecto
 
-Parcial desarrollo web
+Sport Teams
 
 ## Comenzando 🚀
 Se ejecuta en el puerto 3000
@@ -10,22 +10,28 @@ http://localhost:3000/
 
 Utilizando node js
 Express
-Gestor ejs
+Motor de vistas ejs
 Nodemon
 Bootstrap
 
 ### Instalación 🔧
 Como dependencias se utilizo express
-npm i express --save
+npm i express 
 
 Nodemon para el reinicio del servidor automaticamente al guardar los cambios:
-npm i nodemon --save
-## Despliegue 📦
-## Autor ✒️
+npm i nodemon 
 
+Bootstrap v5.3
+npm i bootstrap
 
+Bootstrap Icons
 
-* **Juan Esteban Castro Molano** - *Codigo: 201821029* - 
+npm i bootstrap-icons
+
+## Autores ✒️
+
+* *Juan Esteban Castro Molano*    
+* *Wilmar José Peña Castro*    
 
 
 

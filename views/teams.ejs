@@ -80,44 +80,33 @@
           <label for="searchLeague" class="form-label"></label>
           <button class="btn btn-secondary" onclick="">Apply Filters</button>
         </div>
-      </div>
-      <table class="table table-hover table caption-top">
-        <caption class="fs-4">
-          List Of Teams
-        </caption>
-        <thead class="table-dark text-center">
-          <tr>
-            <th scope="col">Team Id</th>
-            <th scope="col">Team Name</th>
-            <th scope="col">Team Sport</th>
-            <th scope="col">Team League</th>
-            <th scope="col">Team Budge</th>
-            <th scope="col">Actions</th>
-          </tr>
-        </thead>
-        <tbody class="table-group-divider text-center">
-          <% teams.forEach( (team, index) => { %>
-          <tr>
-            <th scope="row" id="<%= team.teamId %>"><%= team.teamId %></th>
-            <td><%= team.teamName %></td>
-            <td><%= team.teamSport %></td>
-            <td><%= team.teamLeague %></td>
-            <td><%= team.teamBudge %></td>
-            <td>
-              <button
-                class="btn btn-danger"
-                onclick="deleteTeam('<%= index %>')"
-              >
-                Delete Team
-              </button>
-            </td>
-          </tr>
+
+        <div class="row mt-5">
+          <% teams.forEach((team, index) => { %>
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title"><%= team.teamName %></h5>
+                <ul>
+                  <li>Sport: <%= team.teamSport %></li>
+                  <li>League: <%= team.teamLeague %></li>
+                  <li>Budge: <%= team.teamBudge %></li>
+                </ul>
+                <button
+                  class="btn btn-danger"
+                  onclick="deleteTeam('<%= index %>')"
+                >
+                  Delete Team
+                </button>
+              </div>
+            </div>
+          </div>
           <% }) %>
-        </tbody>
-      </table>
-      <% } else { %>
-      <h1 class="text-center">No data on JSON file</h1>
-      <% } %>
+        </div>
+        <% } else { %>
+        <h1 class="text-center">No data on JSON file</h1>
+        <% } %>
+      </div>
     </div>
 
     <div
@@ -157,6 +146,7 @@
                   type="text"
                   class="form-control"
                   name="teamName"
+                  oninput="this.value = this.value.toUpperCase()"
                   required
                 />
               </div>
@@ -169,10 +159,10 @@
                   required
                 >
                   <option selected>Select a Sport</option>
-                  <option value="basketball">Basketball</option>
-                  <option value="football">Football</option>
-                  <option value="soccer">Soccer</option>
-                  <option value="baseball">Baseball</option>
+                  <option value="Basketball">Basketball</option>
+                  <option value="Football">Football</option>
+                  <option value="Soccer">Soccer</option>
+                  <option value="Baseball">Baseball</option>
                 </select>
               </div>
               <div class="mb-3">
